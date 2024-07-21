@@ -1,5 +1,5 @@
 import User from '../../models/User.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import Jwt from 'jsonwebtoken';
 
 class UserService {
@@ -8,11 +8,13 @@ class UserService {
   async createUser(userData) {
     try {
       // Verificar si ya existe un usuario con el mismo email
-    const existingUser = await User.findOne({ where: { email: userData.email } });
-    
-    if (existingUser) {
-      throw new Error('Ya existe un usuario con ese email');
-    }
+      const existingUser = await User.findOne({
+        where: { email: userData.email },
+      });
+
+      if (existingUser) {
+        throw new Error('Ya existe un usuario con ese email');
+      }
       // Se hashea la contraseña con brycpt
       const hashedPassword = await bcrypt.hash(userData.userPassword, 6);
 
@@ -66,7 +68,6 @@ class UserService {
 
   async updateUser(id, updatedData) {
     try {
-
       if (updatedData.userPassword) {
         const hashedPassword = await bcrypt.hash(updatedData.userPassword, 6);
         updatedData.userPassword = hashedPassword;
