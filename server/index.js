@@ -6,7 +6,7 @@ import connection from './connection/connection.js';
 
 const app = express();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.use(cors()); // Configura cors para todas las rutas
 
